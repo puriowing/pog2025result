@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>POG 2025-2026 結果発表 - PUTTA POG DATA CONSOLE</title>
+  <title>POG 2025-2026 結果発表 - クラシックエディション</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -16,19 +16,49 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
-    body { font-family: 'Noto Sans JP', sans-serif; }
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&display=swap');
+    body { font-family: 'Noto Sans JP', sans-serif; background-color: #fbf9f5; }
     .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .font-serif-en { font-family: 'Playfair Display', serif; }
+    .font-serif-jp { font-family: 'Noto Serif JP', serif; }
     .hide-scroll::-webkit-scrollbar { display: none; }
     .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
 
-    .glow-gold { box-shadow: 0 0 20px rgba(250, 204, 21, 0.15); border: 1px solid rgba(250, 204, 21, 0.3); }
-    .glow-cyan { box-shadow: 0 0 20px rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.3); }
-    .glow-rose { box-shadow: 0 0 20px rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); }
+    /* クラシックな紙の質感 */
+    .paper-bg {
+      background-color: #fbf9f5;
+      background-image:
+        radial-gradient(circle at 25% 15%, rgba(159, 18, 57, 0.025) 0%, transparent 50%),
+        radial-gradient(circle at 75% 85%, rgba(120, 53, 15, 0.02) 0%, transparent 50%);
+    }
+    .paper-card {
+      background-color: #ffffff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+    .ornament-line {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .ornament-line::before,
+    .ornament-line::after {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: currentColor;
+      opacity: 0.4;
+    }
+
+    /* 王者カードの上品なグロー */
+    .glow-champion { box-shadow: 0 8px 30px rgba(159, 18, 57, 0.08), 0 0 0 1px rgba(159, 18, 57, 0.18); }
+    .glow-silver   { box-shadow: 0 8px 30px rgba(82, 82, 91, 0.08),  0 0 0 1px rgba(82, 82, 91, 0.18); }
+    .glow-bronze   { box-shadow: 0 8px 30px rgba(180, 83, 9, 0.08),  0 0 0 1px rgba(180, 83, 9, 0.18); }
+
     .transition-all { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen selection:bg-yellow-500 selection:text-slate-900 overflow-x-hidden">
+<body class="paper-bg text-stone-800 min-h-screen selection:bg-red-900 selection:text-stone-50 overflow-x-hidden">
   <div id="root"></div>
 
   <script type="text/babel">
@@ -289,7 +319,6 @@
     const DEFAULT_TOPICS = ['データから算出された今シーズンの記録です。'];
 
     // --- 各オーナーの代表馬画像設定 ---
-    // --- 各オーナーの代表馬画像設定 ---
         const HORSE_IMAGES = {
           'バステール': 'basteel.jpg', 
           'ヒシアムルーズ': 'hishi.jpg', 
@@ -303,6 +332,7 @@
           'リアライズシリウス': 'realize.jpg', 
           'サトノボヤージュ': 'satono.jpg'
         };
+
     // --- 埋め込みCSVデータ (起動時に自動解析されるため、CSV再アップロード不要) ---
     const EMBEDDED_HORSE_CSV = `オーナー,指名順位,馬名,性別,成績,ポイント,厩舎,美浦/栗東,父,母,馬主
 ぱすぽーと,7,バステール,牡,[2-1-1-1],13760,斉藤崇史,栗東,キタサンブラック,マンビア,シルクレーシング
@@ -1420,9 +1450,9 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
 
       results.forEach((r, idx) => {
         r.rank = idx + 1;
-        r.color = r.rank === 1 ? 'from-yellow-600/30 to-slate-900' : r.rank === 2 ? 'from-slate-500/30 to-slate-900' : r.rank === 3 ? 'from-amber-800/30 to-slate-900' : 'from-slate-800/30 to-slate-900';
-        r.borderColor = r.rank === 1 ? 'border-yellow-500/50' : r.rank === 2 ? 'border-slate-400/50' : r.rank === 3 ? 'border-amber-600/50' : 'border-slate-800';
-        r.textColor = r.rank === 1 ? 'text-yellow-400' : r.rank === 2 ? 'text-slate-300' : r.rank === 3 ? 'text-amber-500' : 'text-slate-400';
+        r.color = r.rank === 1 ? 'from-red-900/15 to-white' : r.rank === 2 ? 'from-stone-500/15 to-white' : r.rank === 3 ? 'from-amber-700/15 to-white' : 'from-stone-200/40 to-white';
+        r.borderColor = r.rank === 1 ? 'border-red-900/40' : r.rank === 2 ? 'border-stone-400/60' : r.rank === 3 ? 'border-amber-700/40' : 'border-stone-200';
+        r.textColor = r.rank === 1 ? 'text-red-900' : r.rank === 2 ? 'text-stone-700' : r.rank === 3 ? 'text-amber-700' : 'text-stone-500';
 
         r.stats.starts = { value: r.stats.startsValue, rank: startsSorted.findIndex(x => x.name === r.name) + 1 };
         r.stats.winRate = { value: r.stats.winRateValue, rank: winRateSorted.findIndex(x => x.name === r.name) + 1 };
@@ -1435,48 +1465,48 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
 
     // --- Atomic Presentation Components ---
     const RankBadge = ({ rank }) => {
-      if (rank === 1) return <span className="bg-gradient-to-r from-yellow-500 to-amber-500 text-slate-950 text-xs font-black px-2.5 py-1 rounded shadow-lg flex items-center justify-center tracking-wider"><IconCrown size={12} className="mr-1 animate-pulse" /> 1位 王者</span>;
-      if (rank === 2) return <span className="bg-gradient-to-r from-slate-300 to-slate-400 text-slate-950 text-xs font-black px-2.5 py-1 rounded shadow-lg flex items-center justify-center tracking-wider">2位</span>;
-      if (rank === 3) return <span className="bg-gradient-to-r from-amber-700 to-amber-800 text-white text-xs font-black px-2.5 py-1 rounded shadow-lg flex items-center justify-center tracking-wider">3位</span>;
-      return <span className="text-slate-300 bg-slate-900 border border-slate-700 text-xs px-2.5 py-1 rounded tracking-wider font-bold">{rank}位</span>;
+      if (rank === 1) return <span className="bg-gradient-to-r from-red-900 to-amber-700 text-stone-50 text-xs font-black px-2.5 py-1 rounded shadow-lg flex items-center justify-center tracking-wider"><IconCrown size={12} className="mr-1 animate-pulse" /> 1位 王者</span>;
+      if (rank === 2) return <span className="bg-gradient-to-r from-stone-500 to-stone-600 text-stone-50 text-xs font-black px-2.5 py-1 rounded shadow-md flex items-center justify-center tracking-wider">2位</span>;
+      if (rank === 3) return <span className="bg-gradient-to-r from-amber-700 to-amber-800 text-stone-50 text-xs font-black px-2.5 py-1 rounded shadow-lg flex items-center justify-center tracking-wider">3位</span>;
+      return <span className="text-stone-700 bg-white border border-stone-300 text-xs px-2.5 py-1 rounded tracking-wider font-bold">{rank}位</span>;
     };
 
     const LargeStatBox = ({ label, value, subtext, rank, icon, glowClass }) => (
-      <div className={`rounded-2xl p-5 md:p-6 border flex flex-col items-center justify-center relative overflow-hidden bg-slate-900/40 backdrop-blur-md transition-all duration-300 hover:translate-y-[-4px] ${glowClass}`}>
-        <div className="flex items-center gap-2 text-slate-400 text-xs md:text-sm font-semibold mb-2 z-10">{icon} {label}</div>
+      <div className={`rounded-2xl p-5 md:p-6 border flex flex-col items-center justify-center relative overflow-hidden bg-white/40 backdrop-blur-md transition-all duration-300 hover:translate-y-[-4px] ${glowClass}`}>
+        <div className="flex items-center gap-2 text-stone-500 text-xs md:text-sm font-semibold mb-2 z-10">{icon} {label}</div>
         <div className="flex flex-col items-center gap-1.5 z-10">
-          <p className="text-4xl md:text-5xl font-black text-white leading-none tracking-tight font-mono">{value}</p>
-          <p className="text-slate-400 text-[10px] md:text-xs font-medium bg-slate-950/60 px-2.5 py-1 rounded-full">{subtext}</p>
+          <p className="text-4xl md:text-5xl font-black text-stone-900 leading-none tracking-tight font-mono">{value}</p>
+          <p className="text-stone-500 text-[10px] md:text-xs font-medium bg-stone-100 px-2.5 py-1 rounded-full">{subtext}</p>
         </div>
         <div className="absolute top-3 right-3 z-10"><RankBadge rank={rank} /></div>
       </div>
     );
 
     const AttributeRow = ({ icon, label, data, record }) => (
-      <div className="flex items-center justify-between py-2.5 border-b border-slate-800/60 last:border-0 last:pb-0">
+      <div className="flex items-center justify-between py-2.5 border-b border-stone-300/60 last:border-0 last:pb-0">
         <div className="flex items-center gap-3">
-          <div className="text-slate-400 bg-slate-950/40 p-2 rounded-xl border border-slate-800/40">{icon}</div>
+          <div className="text-stone-500 bg-stone-50 p-2 rounded-xl border border-stone-300/40">{icon}</div>
           <div>
-            <p className="text-[10px] text-slate-500 font-bold tracking-wider uppercase mb-0.5">{label}</p>
+            <p className="text-[10px] text-stone-400 font-bold tracking-wider uppercase mb-0.5">{label}</p>
             <div className="flex items-baseline gap-2">
-               <p className="text-sm font-bold text-white leading-none">{data.name}</p>
-               {record && <p className="text-[10px] text-slate-400 font-mono leading-none tracking-wider">{record}</p>}
+               <p className="text-sm font-bold text-stone-900 leading-none">{data.name}</p>
+               {record && <p className="text-[10px] text-stone-500 font-mono leading-none tracking-wider">{record}</p>}
             </div>
           </div>
         </div>
         <div className="flex flex-col items-end gap-1">
-          <span className="text-yellow-400 text-xs font-bold font-mono bg-yellow-400/5 border border-yellow-500/10 px-2 py-0.5 rounded-lg">{data.detail}</span>
+          <span className="text-red-900 text-xs font-bold font-mono bg-red-900/5 border border-red-900/15 px-2 py-0.5 rounded-lg">{data.detail}</span>
         </div>
       </div>
     );
 
     const RatioBar = ({ leftLabel, leftValue, leftColor, rightLabel, rightValue, rightColor }) => (
-      <div className="mt-3 bg-slate-950/30 p-2.5 rounded-xl border border-slate-900/50">
-        <div className="flex justify-between text-[11px] mb-1.5 text-slate-300 font-bold">
+      <div className="mt-3 bg-stone-50 p-2.5 rounded-xl border border-stone-200/50">
+        <div className="flex justify-between text-[11px] mb-1.5 text-stone-700 font-bold">
           <span className="flex items-center gap-1.5"><div className={`w-2 h-2 rounded-full ${leftColor}`}></div>{leftLabel} {leftValue}%</span>
           <span className="flex items-center gap-1.5">{rightLabel} {rightValue}%<div className={`w-2 h-2 rounded-full ${rightColor}`}></div></span>
         </div>
-        <div className="w-full h-2 bg-slate-950 rounded-full overflow-hidden flex shadow-inner">
+        <div className="w-full h-2 paper-bg rounded-full overflow-hidden flex shadow-inner">
           <div className={`h-full ${leftColor} transition-all duration-1000`} style={{ width: `${leftValue}%` }}></div>
           <div className={`h-full ${rightColor} transition-all duration-1000`} style={{ width: `${rightValue}%` }}></div>
         </div>
@@ -1606,19 +1636,23 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
         const renderNavButton = (item) => {
           const isCurrent = step === item.s;
           return (
-            <button key={item.s} onClick={() => changeStep(item.s)} className={`whitespace-nowrap px-2.5 py-1.5 text-xs font-black rounded-lg transition-all ${isCurrent ? 'bg-yellow-500 text-slate-950 shadow-[0_0_15px_rgba(234,179,8,0.3)] transform scale-105' : 'bg-slate-900 text-slate-400 hover:bg-slate-800 hover:text-white border border-slate-800/60'}`}>{item.label}</button>
+            <button key={item.s} onClick={() => changeStep(item.s)} className={`whitespace-nowrap px-2.5 py-1.5 text-xs font-black rounded-lg transition-all ${isCurrent ? 'bg-red-900 text-stone-50 shadow-[0_4px_12px_rgba(159,18,57,0.25)] transform scale-105' : 'bg-stone-100 text-stone-600 hover:bg-stone-200 hover:text-stone-900 border border-stone-200'}`}>{item.label}</button>
           );
         };
 
         return (
-          <div className="w-full bg-black/80 backdrop-blur-lg border-b border-slate-900 p-3 flex flex-col sm:flex-row items-center justify-between sticky top-0 z-50 gap-2 shadow-2xl">
+          <div className="w-full bg-white/95 backdrop-blur-lg border-b-2 border-stone-200 p-3 flex flex-col sm:flex-row items-center justify-between sticky top-0 z-50 gap-2 shadow-sm">
+            <div className="hidden md:flex items-center mr-3 pr-3 border-r border-stone-300 flex-shrink-0">
+              <span className="font-serif-en text-base font-black text-red-900 tracking-tight">P&middot;P</span>
+              <span className="ml-2 text-[10px] tracking-[0.3em] font-bold text-stone-400 uppercase">Classic</span>
+            </div>
             <div className="flex w-full sm:w-auto items-center">
-              <button onClick={handlePrev} disabled={step <= 0} className="text-slate-500 hover:text-white p-1.5 mr-2 rounded-lg bg-slate-900 border border-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"><IconChevronLeft size={16} /></button>
+              <button onClick={handlePrev} disabled={step <= 0} className="text-stone-400 hover:text-stone-900 p-1.5 mr-2 rounded-lg bg-white border border-stone-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all"><IconChevronLeft size={16} /></button>
               <div className="flex items-center gap-1.5 overflow-x-auto hide-scroll flex-grow">{rankNavItems.map(item => renderNavButton(item))}</div>
             </div>
             <div className="flex w-full sm:w-auto items-center">
               <div className="flex items-center gap-1.5 overflow-x-auto hide-scroll flex-grow md:flex-grow-0 md:justify-end">{subNavItems.map(item => renderNavButton(item))}</div>
-              <button onClick={handleNext} disabled={step >= maxStep} className="text-slate-500 hover:text-white p-1.5 ml-2 rounded-lg bg-slate-900 border border-slate-800 disabled:opacity-30 disabled:cursor-not-allowed transition-all"><IconChevronRight size={16} /></button>
+              <button onClick={handleNext} disabled={step >= maxStep} className="text-stone-400 hover:text-stone-900 p-1.5 ml-2 rounded-lg bg-white border border-stone-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all"><IconChevronRight size={16} /></button>
             </div>
           </div>
         );
@@ -1627,34 +1661,36 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
       const renderSubRanking = (title, icon, data, valueFn, unit, isFinal = false, recordFn = null) => {
         let rank = 1; let prevValue = null; let actualRank = 1;
         return (
-          <div className="min-h-screen flex flex-col bg-slate-950 transition-opacity duration-500">
+          <div className="min-h-screen flex flex-col paper-bg transition-opacity duration-500">
             <GlobalHeader />
             <div className="flex-grow p-4 md:p-6 flex flex-col items-center py-10 md:py-16">
-              <div className="mb-6 bg-slate-900/60 p-4 rounded-3xl border border-slate-800/60 shadow-xl">{icon}</div>
-              <h1 className="text-3xl md:text-4xl font-black text-white mb-10 text-center tracking-wider">{title}ランキング</h1>
-              <div className="w-full max-w-4xl bg-slate-900/30 border border-slate-900 rounded-3xl p-4 md:p-6 shadow-2xl backdrop-blur-md">
+              <div className="ornament-line text-stone-400 text-[10px] font-bold tracking-[0.4em] uppercase mb-3">Category Ranking</div>
+              <div className="mb-5 paper-card p-5 rounded-full">{icon}</div>
+              <h1 className="font-serif-jp text-3xl md:text-4xl font-black text-stone-900 mb-2 text-center tracking-wider">{title}ランキング</h1>
+              <p className="font-serif-en italic text-stone-400 text-xs mb-10 tracking-widest">— Top players for {title} —</p>
+              <div className="w-full max-w-4xl bg-white border border-stone-200 rounded-3xl p-4 md:p-6 paper-card">
                 {data.map((player) => {
                   const val = valueFn(player);
                   if (val !== prevValue) rank = actualRank;
                   prevValue = val; actualRank++;
                   const isTop = rank === 1;
                   return (
-                    <div key={player.name} className={`flex items-center justify-between p-3.5 md:p-4 border-b border-slate-800/40 last:border-0 ${isTop ? 'bg-yellow-500/5 border border-yellow-500/10 rounded-2xl mb-2' : ''}`}>
+                    <div key={player.name} className={`flex items-center justify-between p-3.5 md:p-4 border-b border-stone-300/40 last:border-0 ${isTop ? 'bg-red-900/5 border border-red-900/10 rounded-2xl mb-2' : ''}`}>
                       <div className="flex items-center gap-3.5 md:gap-4">
-                        <span className={`text-xl md:text-2xl font-black w-8 md:w-12 ${isTop ? 'text-yellow-400' : rank===2?'text-slate-300':rank===3?'text-amber-500':'text-slate-600'}`}>{rank}位</span>
-                        <span className={`text-base md:text-lg font-bold ${isTop ? 'text-yellow-400' : 'text-white'}`}>{player.name}</span>
+                        <span className={`text-xl md:text-2xl font-black w-8 md:w-12 ${isTop ? 'text-red-900' : rank===2?'text-stone-700':rank===3?'text-amber-700':'text-stone-400'}`}>{rank}位</span>
+                        <span className={`text-base md:text-lg font-bold ${isTop ? 'text-red-900' : 'text-stone-900'}`}>{player.name}</span>
                       </div>
                       <div className="text-right flex flex-col items-end">
-                        <span className="text-lg md:text-xl font-bold text-slate-100 font-mono">{val} <span className="text-xs md:text-sm font-normal text-slate-400">{unit}</span></span>
-                        {recordFn && <span className="text-[10px] md:text-xs text-slate-400 font-mono tracking-wider bg-slate-950/60 px-2.5 py-0.5 rounded mt-1.5">{recordFn(player)}</span>}
+                        <span className="text-lg md:text-xl font-bold text-stone-900 font-mono">{val} <span className="text-xs md:text-sm font-normal text-stone-500">{unit}</span></span>
+                        {recordFn && <span className="text-[10px] md:text-xs text-stone-500 font-mono tracking-wider bg-stone-100 px-2.5 py-0.5 rounded mt-1.5">{recordFn(player)}</span>}
                       </div>
                     </div>
                   );
                 })}
               </div>
               <div className="mt-12 flex gap-4">
-                <button onClick={handlePrev} className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl transition-all border border-slate-800 flex items-center gap-2"><IconChevronLeft size={16}/> 戻る</button>
-                <button onClick={handleNext} className="px-6 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center gap-2">次へ <IconChevronRight size={16}/></button>
+                <button onClick={handlePrev} className="px-6 py-3 bg-white hover:bg-stone-100 text-stone-700 font-bold rounded-xl transition-all border border-stone-300 shadow-sm flex items-center gap-2"><IconChevronLeft size={16}/> 戻る</button>
+                <button onClick={handleNext} className="px-6 py-3 bg-red-900 hover:bg-red-800 text-stone-50 font-bold rounded-xl transition-all shadow-lg flex items-center gap-2">次へ <IconChevronRight size={16}/></button>
               </div>
             </div>
           </div>
@@ -1664,30 +1700,32 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
       const renderOverallRanking = (title, icon, data, valueKey, unit) => {
         let rank = 1; let prevValue = null; let actualRank = 1;
         return (
-          <div className="min-h-screen flex flex-col bg-slate-950 transition-opacity duration-500">
+          <div className="min-h-screen flex flex-col paper-bg transition-opacity duration-500">
             <GlobalHeader />
             <div className="flex-grow p-4 md:p-6 flex flex-col items-center py-10 md:py-16">
-              <div className="mb-6 bg-slate-900/60 p-4 rounded-3xl border border-slate-800/60 shadow-xl">{icon}</div>
-              <h1 className="text-3xl md:text-4xl font-black text-white mb-10 text-center tracking-wider">{title} ランキング</h1>
-              <div className="w-full max-w-4xl bg-slate-900/30 border border-slate-900 rounded-3xl p-4 md:p-6 shadow-2xl backdrop-blur-md">
+              <div className="ornament-line text-stone-400 text-[10px] font-bold tracking-[0.4em] uppercase mb-3">Overall Ranking</div>
+              <div className="mb-5 paper-card p-5 rounded-full">{icon}</div>
+              <h1 className="font-serif-jp text-3xl md:text-4xl font-black text-stone-900 mb-2 text-center tracking-wider">{title} ランキング</h1>
+              <p className="font-serif-en italic text-stone-400 text-xs mb-10 tracking-widest">— Season-wide leaders —</p>
+              <div className="w-full max-w-4xl bg-white border border-stone-200 rounded-3xl p-4 md:p-6 paper-card">
                 {data.map((item) => {
                   const val = item[valueKey];
                   if (val !== prevValue) rank = actualRank;
                   prevValue = val; actualRank++;
                   const isTop = rank === 1;
                   return (
-                    <div key={item.name} className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-slate-800/40 last:border-0 ${isTop ? 'bg-yellow-500/5 border border-yellow-500/10 rounded-2xl mb-2' : ''}`}>
+                    <div key={item.name} className={`flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-stone-300/40 last:border-0 ${isTop ? 'bg-red-900/5 border border-red-900/10 rounded-2xl mb-2' : ''}`}>
                       <div className="flex items-center gap-3.5 md:gap-4 mb-3 sm:mb-0">
-                        <span className={`text-xl md:text-2xl font-black w-8 md:w-12 ${isTop ? 'text-yellow-400' : rank===2?'text-slate-300':rank===3?'text-amber-600':'text-slate-600'}`}>{rank}位</span>
-                        <span className={`text-base md:text-lg font-bold ${isTop ? 'text-yellow-400' : 'text-white'}`}>{item.name}</span>
+                        <span className={`text-xl md:text-2xl font-black w-8 md:w-12 ${isTop ? 'text-red-900' : rank===2?'text-stone-700':rank===3?'text-amber-700':'text-stone-400'}`}>{rank}位</span>
+                        <span className={`text-base md:text-lg font-bold ${isTop ? 'text-red-900' : 'text-stone-900'}`}>{item.name}</span>
                       </div>
                       <div className="flex flex-col items-end sm:items-end w-full sm:w-auto">
-                        <span className="text-lg md:text-xl font-bold text-slate-100 font-mono mb-1.5">{val.toLocaleString()} <span className="text-xs md:text-sm font-normal text-slate-400">{unit}</span></span>
+                        <span className="text-lg md:text-xl font-bold text-stone-900 font-mono mb-1.5">{val.toLocaleString()} <span className="text-xs md:text-sm font-normal text-stone-500">{unit}</span></span>
                         <div className="flex flex-wrap items-center justify-end gap-1.5 text-[10px] md:text-xs">
-                          <span className="text-slate-300 bg-slate-950/40 border border-slate-800 px-2 py-0.5 rounded-lg">勝: {item.winRate}%</span>
-                          <span className="text-slate-300 bg-slate-950/40 border border-slate-800 px-2 py-0.5 rounded-lg">連: {item.top2Rate}%</span>
-                          <span className="text-slate-300 bg-slate-950/40 border border-slate-800 px-2 py-0.5 rounded-lg">5着: {item.top5Rate}%</span>
-                          <span className="text-emerald-400 font-mono tracking-wider bg-slate-950/60 px-2.5 py-0.5 rounded-lg border border-slate-800/60">[{item.record.join('-')}]（全{item.starts}走）</span>
+                          <span className="text-stone-700 bg-stone-50 border border-stone-300 px-2 py-0.5 rounded-lg">勝: {item.winRate}%</span>
+                          <span className="text-stone-700 bg-stone-50 border border-stone-300 px-2 py-0.5 rounded-lg">連: {item.top2Rate}%</span>
+                          <span className="text-stone-700 bg-stone-50 border border-stone-300 px-2 py-0.5 rounded-lg">5着: {item.top5Rate}%</span>
+                          <span className="text-emerald-700 font-mono tracking-wider bg-stone-100 px-2.5 py-0.5 rounded-lg border border-stone-300/60">[{item.record.join('-')}]（全{item.starts}走）</span>
                         </div>
                       </div>
                     </div>
@@ -1695,8 +1733,8 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
                 })}
               </div>
               <div className="mt-12 flex gap-4">
-                <button onClick={handlePrev} className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl transition-all border border-slate-800 flex items-center gap-2"><IconChevronLeft size={16}/> 戻る</button>
-                <button onClick={handleNext} className="px-6 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center gap-2">次へ <IconChevronRight size={16}/></button>
+                <button onClick={handlePrev} className="px-6 py-3 bg-white hover:bg-stone-100 text-stone-700 font-bold rounded-xl transition-all border border-stone-300 shadow-sm flex items-center gap-2"><IconChevronLeft size={16}/> 戻る</button>
+                <button onClick={handleNext} className="px-6 py-3 bg-red-900 hover:bg-red-800 text-stone-50 font-bold rounded-xl transition-all shadow-lg flex items-center gap-2">次へ <IconChevronRight size={16}/></button>
               </div>
             </div>
           </div>
@@ -1708,42 +1746,43 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
         const sorted = [...resultsData].sort((a, b) => b.points - a.points);
         const maxPoints = Math.max(...sorted.map(r => r.points), 1);
         return (
-          <div className="min-h-screen flex flex-col bg-slate-950 transition-opacity duration-500">
+          <div className="min-h-screen flex flex-col paper-bg transition-opacity duration-500">
             <GlobalHeader />
             <div className="flex-grow p-4 md:p-6 flex flex-col items-center py-10 md:py-16">
-              <div className="mb-6 bg-slate-900/60 p-4 rounded-3xl border border-slate-800/60 shadow-xl"><IconTrophy size={60} className="text-yellow-400"/></div>
-              <h1 className="text-3xl md:text-5xl font-black text-white mb-2 text-center tracking-wider">最終総合ポイント</h1>
-              <p className="text-slate-400 text-xs mb-10 tracking-widest">POG 2025-2026 FINAL STANDINGS</p>
+              <div className="ornament-line text-red-900 text-[10px] font-bold tracking-[0.4em] uppercase mb-3">The Final Standing</div>
+              <div className="mb-5 paper-card p-5 rounded-full"><IconTrophy size={60} className="text-red-900"/></div>
+              <h1 className="font-serif-jp text-3xl md:text-5xl font-black text-stone-900 mb-1 text-center tracking-wider">最 終 総 合 ポ イ ン ト</h1>
+              <p className="font-serif-en italic text-stone-500 text-xs mb-10 tracking-widest">POG 2025-2026 Final Standings</p>
 
-              <div className="w-full max-w-5xl bg-slate-900/30 border border-slate-900 rounded-3xl p-5 md:p-8 shadow-2xl backdrop-blur-md">
+              <div className="w-full max-w-5xl bg-white border border-stone-200 rounded-3xl p-5 md:p-8 paper-card">
                 {sorted.map((player) => {
                   const widthPct = (player.points / maxPoints) * 100;
                   const isTop = player.rank === 1;
                   const isSecond = player.rank === 2;
                   const isThird = player.rank === 3;
                   const barColor = isTop
-                    ? 'from-yellow-500 via-amber-400 to-yellow-300'
+                    ? 'from-red-900 via-red-700 to-amber-700'
                     : isSecond
-                    ? 'from-slate-300 to-slate-400'
+                    ? 'from-stone-500 to-stone-700'
                     : isThird
-                    ? 'from-amber-700 to-amber-600'
-                    : 'from-slate-700 to-slate-600';
-                  const textColor = isTop ? 'text-yellow-400' : isSecond ? 'text-slate-200' : isThird ? 'text-amber-500' : 'text-slate-300';
+                    ? 'from-amber-600 to-amber-800'
+                    : 'from-stone-300 to-stone-400';
+                  const textColor = isTop ? 'text-red-900' : isSecond ? 'text-stone-700' : isThird ? 'text-amber-800' : 'text-stone-600';
                   return (
-                    <div key={player.name} className={`mb-5 last:mb-0 ${isTop ? 'p-3 -mx-1 rounded-2xl bg-yellow-500/5 border border-yellow-500/15' : ''}`}>
+                    <div key={player.name} className={`mb-5 last:mb-0 ${isTop ? 'p-3 -mx-1 rounded-2xl bg-red-900/5 border border-red-900/15' : ''}`}>
                       <div className="flex items-center justify-between mb-2">
                         <div className="flex items-center gap-3 min-w-0">
                           <span className={`text-xl md:text-2xl font-black w-12 md:w-14 flex-shrink-0 ${textColor}`}>{player.rank}位</span>
-                          <span className={`text-base md:text-xl font-bold truncate ${isTop ? 'text-yellow-400' : 'text-white'}`}>{player.name}</span>
-                          {isTop && <IconCrown size={20} className="text-yellow-400 animate-pulse flex-shrink-0"/>}
+                          <span className={`text-base md:text-xl font-bold truncate ${isTop ? 'text-red-900' : 'text-stone-900'}`}>{player.name}</span>
+                          {isTop && <IconCrown size={20} className="text-red-900 animate-pulse flex-shrink-0"/>}
                         </div>
                         <span className={`text-lg md:text-2xl font-black font-mono whitespace-nowrap ${textColor}`}>
-                          {player.points.toLocaleString()} <span className="text-xs text-slate-400 font-normal">pt</span>
+                          {player.points.toLocaleString()} <span className="text-xs text-stone-500 font-normal">pt</span>
                         </span>
                       </div>
-                      <div className="w-full h-5 md:h-6 bg-slate-950/80 rounded-lg overflow-hidden border border-slate-800/50 shadow-inner">
+                      <div className="w-full h-5 md:h-6 bg-stone-100 rounded-lg overflow-hidden border border-stone-200">
                         <div
-                          className={`h-full bg-gradient-to-r ${barColor} transition-all duration-1000 ease-out rounded-lg shadow-[0_0_12px_rgba(234,179,8,0.2)]`}
+                          className={`h-full bg-gradient-to-r ${barColor} transition-all duration-1000 ease-out rounded-lg`}
                           style={{ width: `${widthPct}%` }}
                         ></div>
                       </div>
@@ -1753,7 +1792,7 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
               </div>
 
               <div className="mt-12 flex gap-4">
-                <button onClick={handlePrev} className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl transition-all border border-slate-800 flex items-center gap-2"><IconChevronLeft size={16}/> 戻る</button>
+                <button onClick={handlePrev} className="px-6 py-3 bg-white hover:bg-stone-100 text-stone-700 font-bold rounded-xl transition-all border border-stone-300 shadow-sm flex items-center gap-2"><IconChevronLeft size={16}/> 戻る</button>
               </div>
             </div>
           </div>
@@ -1767,12 +1806,13 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
         const sainomeMax = Math.max(...sainomeSorted.map(s => s.points), 1);
 
         return (
-          <div className="min-h-screen flex flex-col bg-slate-950 transition-opacity duration-500">
+          <div className="min-h-screen flex flex-col paper-bg transition-opacity duration-500">
             <GlobalHeader />
             <div className="flex-grow p-4 md:p-6 flex flex-col items-center py-10">
-              <div className="mb-4 bg-slate-900/60 p-4 rounded-3xl border border-slate-800/60 shadow-xl"><IconGift size={60} className="text-yellow-400" /></div>
-              <h1 className="text-3xl md:text-4xl font-black text-white mb-2 text-center tracking-wider">POG2025 シーズンボーナス一覧</h1>
-              <p className="text-slate-400 text-xs mb-10 tracking-widest">SEASON BONUS RESULTS</p>
+              <div className="ornament-line text-red-900 text-[10px] font-bold tracking-[0.4em] uppercase mb-3">Season Bonus Records</div>
+              <div className="mb-5 paper-card p-5 rounded-full"><IconGift size={60} className="text-red-900" /></div>
+              <h1 className="font-serif-jp text-3xl md:text-4xl font-black text-stone-900 mb-2 text-center tracking-wider">シーズン ボーナス 一覧</h1>
+              <p className="font-serif-en italic text-stone-500 text-xs mb-10 tracking-widest">— POG 2025-2026 Season Bonus Results —</p>
 
               <div className="w-full max-w-5xl space-y-6">
                 {BONUS_MASTER.map(b => {
@@ -1783,24 +1823,24 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
                     <div
                       key={b.id}
                       className={`rounded-3xl p-6 md:p-8 backdrop-blur-md border ${noAchiever
-                        ? 'bg-slate-900/30 border-slate-900'
-                        : 'bg-gradient-to-br from-yellow-500/10 via-slate-900/40 to-slate-900/30 border-yellow-500/30 shadow-[0_0_25px_rgba(234,179,8,0.08)]'}`}
+                        ? 'bg-white/30 border-stone-200'
+                        : 'bg-gradient-to-br from-red-900/5 via-white to-amber-50 border-red-900/30 shadow-[0_8px_30px_rgba(159,18,57,0.08)]'}`}
                     >
                       {/* ボーナス定義 */}
                       <div className="flex flex-wrap items-center gap-3 mb-3">
-                        <span className="bg-slate-800 text-slate-300 font-mono font-bold text-sm px-3 py-1 rounded">その{b.id}</span>
-                        <h3 className="text-lg md:text-xl font-black text-white">{b.name}</h3>
-                        <span className="text-xs bg-yellow-500/15 text-yellow-300 border border-yellow-500/30 px-3 py-1 rounded-full font-bold">{b.reward}</span>
+                        <span className="bg-stone-200 text-stone-700 font-mono font-bold text-sm px-3 py-1 rounded">その{b.id}</span>
+                        <h3 className="text-lg md:text-xl font-black text-stone-900">{b.name}</h3>
+                        <span className="text-xs bg-red-900/15 text-red-800 border border-red-900/30 px-3 py-1 rounded-full font-bold">{b.reward}</span>
                       </div>
-                      <p className="text-xs md:text-sm text-slate-400 leading-relaxed mb-5 pb-5 border-b border-slate-800/50">{b.desc}</p>
+                      <p className="text-xs md:text-sm text-stone-500 leading-relaxed mb-5 pb-5 border-b border-stone-300/50">{b.desc}</p>
 
                       {/* 達成者サマリー (大きく表示) */}
-                      <div className={`rounded-2xl p-5 md:p-7 border-2 ${noAchiever ? 'bg-slate-950/40 border-slate-800/60' : 'bg-slate-950/70 border-yellow-500/40'}`}>
-                        <p className={`text-[10px] md:text-xs font-black uppercase mb-3 tracking-widest flex items-center gap-2 ${noAchiever ? 'text-slate-500' : 'text-yellow-400'}`}>
-                          {!noAchiever && <IconAward size={14} className="text-yellow-400"/>}
+                      <div className={`rounded-2xl p-5 md:p-7 border-2 ${noAchiever ? 'bg-stone-50 border-stone-300/60' : 'bg-white border-red-900/40'}`}>
+                        <p className={`text-[10px] md:text-xs font-black uppercase mb-3 tracking-widest flex items-center gap-2 ${noAchiever ? 'text-stone-400' : 'text-red-900'}`}>
+                          {!noAchiever && <IconAward size={14} className="text-red-900"/>}
                           達成者・現況
                         </p>
-                        <p className={`text-2xl md:text-4xl font-black leading-tight tracking-tight ${noAchiever ? 'text-slate-500' : 'text-yellow-300'}`}>
+                        <p className={`text-2xl md:text-4xl font-black leading-tight tracking-tight ${noAchiever ? 'text-stone-400' : 'text-red-800'}`}>
                           {result?.status || '該当なし'}
                         </p>
 
@@ -1811,21 +1851,21 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
                               <div
                                 key={idx}
                                 className={`p-3.5 rounded-xl border flex items-start justify-between gap-3 ${a.isWinner
-                                  ? 'bg-yellow-500/10 border-yellow-500/40 shadow-[0_0_12px_rgba(234,179,8,0.08)]'
-                                  : 'bg-slate-900/50 border-slate-800/60'}`}
+                                  ? 'bg-red-900/10 border-red-900/40 shadow-[0_0_12px_rgba(234,179,8,0.08)]'
+                                  : 'bg-white/50 border-stone-300/60'}`}
                               >
                                 <div className="flex items-start gap-2.5 min-w-0">
                                   {a.isWinner
-                                    ? <IconCrown size={16} className="text-yellow-400 flex-shrink-0 mt-0.5"/>
-                                    : <div className="w-2 h-2 rounded-full bg-slate-600 flex-shrink-0 mt-2"></div>}
+                                    ? <IconCrown size={16} className="text-red-900 flex-shrink-0 mt-0.5"/>
+                                    : <div className="w-2 h-2 rounded-full bg-stone-500 flex-shrink-0 mt-2"></div>}
                                   <div className="min-w-0">
                                     {a.horse && (
-                                      <p className={`text-base md:text-lg font-black leading-tight ${a.isWinner ? 'text-yellow-300' : 'text-slate-200'} break-words`}>{a.horse}</p>
+                                      <p className={`text-base md:text-lg font-black leading-tight ${a.isWinner ? 'text-red-800' : 'text-stone-800'} break-words`}>{a.horse}</p>
                                     )}
-                                    <p className={`text-xs md:text-sm font-bold ${a.horse ? 'text-slate-400 mt-0.5' : (a.isWinner ? 'text-yellow-300 text-base md:text-lg' : 'text-slate-200 text-base md:text-lg')}`}>
+                                    <p className={`text-xs md:text-sm font-bold ${a.horse ? 'text-stone-500 mt-0.5' : (a.isWinner ? 'text-red-800 text-base md:text-lg' : 'text-stone-800 text-base md:text-lg')}`}>
                                       {a.horse ? `(${a.owner})` : a.owner}
                                     </p>
-                                    {a.detail && <p className="text-[11px] md:text-xs text-slate-300 mt-1.5 leading-relaxed">{a.detail}</p>}
+                                    {a.detail && <p className="text-[11px] md:text-xs text-stone-700 mt-1.5 leading-relaxed">{a.detail}</p>}
                                   </div>
                                 </div>
                               </div>
@@ -1839,13 +1879,13 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
               </div>
 
               {/* --- サイの目対決 (8位指名馬による直接対決) --- */}
-              <div className="w-full max-w-5xl mt-10 rounded-3xl p-6 md:p-8 backdrop-blur-md border border-rose-500/30 bg-gradient-to-br from-rose-500/10 via-slate-900/40 to-slate-900/30 shadow-[0_0_25px_rgba(244,63,94,0.08)]">
+              <div className="w-full max-w-5xl mt-10 rounded-3xl p-6 md:p-8 backdrop-blur-md border border-rose-300 bg-gradient-to-br from-rose-50 via-white to-rose-50/40 shadow-[0_8px_30px_rgba(244,63,94,0.08)]">
                 <div className="flex flex-wrap items-center gap-3 mb-3">
-                  <span className="bg-slate-800 text-rose-300 font-mono font-bold text-sm px-3 py-1 rounded">EXTRA</span>
-                  <h3 className="text-lg md:text-xl font-black text-white">サイの目対決</h3>
-                  <span className="text-xs bg-rose-500/15 text-rose-300 border border-rose-500/30 px-3 py-1 rounded-full font-bold">8位指名馬による直接対決</span>
+                  <span className="bg-rose-700 text-stone-50 font-mono font-bold text-sm px-3 py-1 rounded">EXTRA</span>
+                  <h3 className="text-lg md:text-xl font-black text-stone-900">サイの目対決</h3>
+                  <span className="text-xs bg-rose-100 text-rose-800 border border-rose-300 px-3 py-1 rounded-full font-bold">8位指名馬による直接対決</span>
                 </div>
-                <p className="text-xs md:text-sm text-slate-400 leading-relaxed mb-5 pb-5 border-b border-slate-800/50">
+                <p className="text-xs md:text-sm text-stone-500 leading-relaxed mb-5 pb-5 border-b border-stone-300/50">
                   前年度優勝者がサイコロを振り、出た目の順位の馬同士の直接対決。優勝者は一位指名優先選択権を獲得（同点の場合、本賞金上位者の勝ち）。
                 </p>
 
@@ -1854,22 +1894,22 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
                     const isFirst = idx === 0;
                     const widthPct = (s.points / sainomeMax) * 100;
                     return (
-                      <div key={s.owner} className={`p-3.5 rounded-xl border ${isFirst ? 'bg-rose-500/10 border-rose-500/40' : 'bg-slate-950/50 border-slate-800/60'}`}>
+                      <div key={s.owner} className={`p-3.5 rounded-xl border ${isFirst ? 'bg-rose-100 border-rose-400 shadow-sm' : 'bg-white border-stone-200'}`}>
                         <div className="flex items-center justify-between mb-1.5 gap-3">
                           <div className="flex items-center gap-2.5 min-w-0">
-                            <span className={`text-sm md:text-base font-black w-10 flex-shrink-0 ${isFirst ? 'text-rose-300' : 'text-slate-500'}`}>{idx + 1}位</span>
-                            <span className={`text-base md:text-lg font-black truncate ${isFirst ? 'text-rose-300' : 'text-white'}`}>{s.horse}</span>
-                            <span className="text-xs md:text-sm text-slate-400 font-bold flex-shrink-0">({s.owner})</span>
-                            {isFirst && <IconCrown size={16} className="text-rose-300 animate-pulse flex-shrink-0"/>}
+                            <span className={`text-sm md:text-base font-black w-10 flex-shrink-0 ${isFirst ? 'text-rose-700' : 'text-stone-400'}`}>{idx + 1}位</span>
+                            <span className={`text-base md:text-lg font-black truncate ${isFirst ? 'text-rose-800' : 'text-stone-900'}`}>{s.horse}</span>
+                            <span className="text-xs md:text-sm text-stone-500 font-bold flex-shrink-0">({s.owner})</span>
+                            {isFirst && <IconCrown size={16} className="text-rose-700 animate-pulse flex-shrink-0"/>}
                           </div>
-                          <span className={`text-base md:text-lg font-black font-mono whitespace-nowrap ${isFirst ? 'text-rose-300' : 'text-slate-300'}`}>
+                          <span className={`text-base md:text-lg font-black font-mono whitespace-nowrap ${isFirst ? 'text-rose-800' : 'text-stone-700'}`}>
                             {s.points.toLocaleString()}
-                            <span className="text-[10px] text-slate-500 font-normal ml-1">pt</span>
+                            <span className="text-[10px] text-stone-400 font-normal ml-1">pt</span>
                           </span>
                         </div>
-                        <div className="w-full h-2.5 bg-slate-950/80 rounded-full overflow-hidden border border-slate-800/40">
+                        <div className="w-full h-2.5 bg-stone-100 rounded-full overflow-hidden border border-stone-300/40">
                           <div
-                            className={`h-full rounded-full transition-all duration-1000 ${isFirst ? 'bg-gradient-to-r from-rose-600 to-rose-400' : 'bg-gradient-to-r from-slate-600 to-slate-500'}`}
+                            className={`h-full rounded-full transition-all duration-1000 ${isFirst ? 'bg-gradient-to-r from-rose-700 to-rose-500' : 'bg-gradient-to-r from-stone-400 to-stone-500'}`}
                             style={{ width: `${widthPct}%` }}
                           ></div>
                         </div>
@@ -1880,8 +1920,8 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
               </div>
 
               <div className="mt-12 flex gap-4">
-                <button onClick={handlePrev} className="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl transition-all border border-slate-800 flex items-center gap-2"><IconChevronLeft size={16}/> 戻る</button>
-                <button onClick={handleNext} className="px-6 py-3 bg-rose-600 hover:bg-rose-500 text-white font-bold rounded-xl transition-all shadow-lg flex items-center gap-2">次へ <IconChevronRight size={16}/></button>
+                <button onClick={handlePrev} className="px-6 py-3 bg-white hover:bg-stone-100 text-stone-700 font-bold rounded-xl transition-all border border-stone-300 shadow-sm flex items-center gap-2"><IconChevronLeft size={16}/> 戻る</button>
+                <button onClick={handleNext} className="px-6 py-3 bg-red-900 hover:bg-red-800 text-stone-50 font-bold rounded-xl transition-all shadow-lg flex items-center gap-2">次へ <IconChevronRight size={16}/></button>
               </div>
             </div>
           </div>
@@ -1890,31 +1930,31 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
 
       if (step === -1) {
         return (
-          <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-6 text-white relative overflow-hidden">
+          <div className="min-h-screen paper-bg flex flex-col items-center justify-center p-6 text-stone-900 relative overflow-hidden">
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-rose-500/5 rounded-full blur-3xl"></div>
-            <IconTrophy size={64} className="text-rose-500 mb-6 drop-shadow-[0_0_15px_rgba(244,63,94,0.4)]" />
-            <h1 className="text-3xl md:text-4xl font-black mb-2 tracking-wider text-slate-100">PUTTA POG ANALYTICS</h1>
-            <p className="mb-6 text-slate-400 text-center text-xs md:text-sm leading-relaxed max-w-md">
-              <span className="text-rose-400 font-bold">【埋め込みCSV解析失敗】</span><br/>
+            <IconTrophy size={64} className="text-red-900 mb-6" />
+            <h1 className="font-serif-en text-3xl md:text-4xl font-black mb-2 tracking-wider text-stone-900">PUTTA POG ANALYTICS</h1>
+            <p className="mb-6 text-stone-600 text-center text-xs md:text-sm leading-relaxed max-w-md">
+              <span className="text-red-800 font-bold">【埋め込みCSV解析失敗】</span><br/>
               CSVデータの解析に失敗しました。フォールバックとして手動でCSVをアップロードしてください。
             </p>
-            <div className="space-y-6 bg-slate-900/40 border border-slate-800/80 backdrop-blur-md p-8 rounded-3xl w-full max-w-md shadow-2xl relative z-10">
+            <div className="space-y-6 bg-white border border-stone-200 p-8 rounded-3xl w-full max-w-md paper-card relative z-10">
               {errorMessage && (
-                <div className="bg-rose-500/10 border border-rose-500/30 text-rose-400 p-4 rounded-2xl text-xs leading-relaxed font-bold animate-pulse">
+                <div className="bg-rose-50 border border-rose-300 text-rose-800 p-4 rounded-2xl text-xs leading-relaxed font-bold">
                   {errorMessage}
                 </div>
               )}
               <div>
-                <label className="block mb-2 font-bold text-emerald-400 text-xs tracking-wider flex items-center gap-2"><IconUpload size={14}/> 馬データ.csv</label>
-                <input type="file" accept=".csv" onChange={(e) => handleFileUpload(e, 'horse')} className="block w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-800 file:text-white hover:file:bg-slate-700 cursor-pointer bg-slate-950/50 p-2.5 rounded-2xl border border-slate-900" />
-                {horseCsvText && <p className="text-xs text-emerald-400 mt-2 font-bold flex items-center gap-1">✓ アップロード完了</p>}
+                <label className="block mb-2 font-bold text-emerald-700 text-xs tracking-wider flex items-center gap-2"><IconUpload size={14}/> 馬データ.csv</label>
+                <input type="file" accept=".csv" onChange={(e) => handleFileUpload(e, 'horse')} className="block w-full text-xs text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-stone-200 file:text-stone-900 hover:file:bg-stone-300 cursor-pointer bg-stone-50 p-2.5 rounded-2xl border border-stone-200" />
+                {horseCsvText && <p className="text-xs text-emerald-700 mt-2 font-bold flex items-center gap-1">✓ アップロード完了</p>}
               </div>
               <div>
-                <label className="block mb-2 font-bold text-cyan-400 text-xs tracking-wider flex items-center gap-2"><IconUpload size={14}/> 競走データ.csv</label>
-                <input type="file" accept=".csv" onChange={(e) => handleFileUpload(e, 'race')} className="block w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-800 file:text-white hover:file:bg-slate-700 cursor-pointer bg-slate-950/50 p-2.5 rounded-2xl border border-slate-900" />
-                {raceCsvText && <p className="text-xs text-cyan-400 mt-2 font-bold flex items-center gap-1">✓ アップロード完了</p>}
+                <label className="block mb-2 font-bold text-blue-800 text-xs tracking-wider flex items-center gap-2"><IconUpload size={14}/> 競走データ.csv</label>
+                <input type="file" accept=".csv" onChange={(e) => handleFileUpload(e, 'race')} className="block w-full text-xs text-stone-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-stone-200 file:text-stone-900 hover:file:bg-stone-300 cursor-pointer bg-stone-50 p-2.5 rounded-2xl border border-stone-200" />
+                {raceCsvText && <p className="text-xs text-blue-800 mt-2 font-bold flex items-center gap-1">✓ アップロード完了</p>}
               </div>
-              <button onClick={processDataAndStart} disabled={!horseCsvText || !raceCsvText} className="w-full mt-6 bg-gradient-to-r from-yellow-500 to-amber-500 text-slate-950 font-black py-3.5 px-4 rounded-2xl transition-all transform hover:scale-[1.02] flex justify-center items-center gap-2 shadow-lg shadow-yellow-500/10">解析を実行して発表へ進む <IconChevronRight size={18} /></button>
+              <button onClick={processDataAndStart} disabled={!horseCsvText || !raceCsvText} className="w-full mt-6 bg-gradient-to-r from-red-900 to-amber-700 text-stone-50 font-black py-3.5 px-4 rounded-2xl transition-all transform hover:scale-[1.02] flex justify-center items-center gap-2 shadow-lg shadow-red-900/15">解析を実行して発表へ進む <IconChevronRight size={18} /></button>
             </div>
           </div>
         );
@@ -1922,13 +1962,17 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
 
       if (step === 0) {
         return (
-          <div className="min-h-screen flex flex-col bg-slate-950 transition-opacity duration-500 relative overflow-hidden items-center justify-center p-6">
+          <div className="min-h-screen flex flex-col paper-bg transition-opacity duration-500 relative overflow-hidden items-center justify-center p-6">
             <GlobalHeader />
             <div className="flex-grow flex flex-col items-center justify-center relative z-10 max-w-2xl text-center">
-              <IconTrophy size={100} className="text-yellow-400 mb-8 animate-pulse" />
-              <h1 className="text-5xl md:text-7xl font-black text-white mb-4 tracking-widest uppercase">PUTTA POG</h1>
-              <h2 className="text-xl md:text-2xl font-bold text-slate-400 mb-12 tracking-widest">2025-2026 シーズン 結果発表会</h2>
-              <button onClick={handleNext} className="bg-gradient-to-r from-rose-600 to-rose-500 text-white text-lg md:text-xl font-black py-4 px-10 rounded-2xl shadow-xl transition-all flex items-center gap-3 transform hover:scale-105">第 {resultsData.length} 位の発表へ <IconChevronRight size={22} /></button>
+              <div className="ornament-line text-red-900 mb-4 text-[10px] font-bold tracking-[0.4em] uppercase">Classic Edition</div>
+              <IconTrophy size={88} className="text-red-900 mb-6" />
+              <p className="font-serif-en italic text-stone-500 text-sm md:text-base mb-3 tracking-wider">Season 2025 — 2026</p>
+              <h1 className="font-serif-en text-6xl md:text-8xl font-black text-stone-900 mb-2 tracking-tight leading-none">PUTTA POG</h1>
+              <div className="h-px w-32 bg-red-900/60 my-6"></div>
+              <h2 className="font-serif-jp text-lg md:text-2xl font-bold text-stone-700 mb-12 tracking-widest">結 果 発 表 会</h2>
+              <button onClick={handleNext} className="bg-red-900 hover:bg-red-800 text-stone-50 text-base md:text-lg font-bold py-3.5 px-10 rounded-full shadow-xl transition-all flex items-center gap-3 transform hover:scale-105 tracking-wider">第 {resultsData.length} 位の発表へ <IconChevronRight size={20} /></button>
+              <p className="mt-12 text-[10px] text-stone-400 tracking-[0.3em] uppercase">— Editorial Edition —</p>
             </div>
           </div>
         );
@@ -1939,13 +1983,13 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
         const formatRecordFn = (p) => `[${p.stats.record.join('-')}]（全${p.stats.startsValue}走）`;
         const N = resultsData.length;
 
-        if (step === N + 1) return renderSubRanking("総出走数", <IconActivity size={60} className="text-blue-400"/>, [...resultsData].sort((a,b) => b.stats.startsValue - a.stats.startsValue), (p) => p.stats.startsValue, "走");
-        if (step === N + 2) return renderSubRanking("勝率", <IconTarget size={60} className="text-rose-400"/>, [...resultsData].sort((a,b) => b.stats.winRateValue - a.stats.winRateValue), (p) => p.stats.winRateValue, "%", false, formatRecordFn);
-        if (step === N + 3) return renderSubRanking("連対率", <IconTrendingUp size={60} className="text-amber-400"/>, [...resultsData].sort((a,b) => b.stats.top2RateValue - a.stats.top2RateValue), (p) => p.stats.top2RateValue, "%", false, formatRecordFn);
-        if (step === N + 4) return renderSubRanking("5着内率", <IconShieldCheck size={60} className="text-emerald-400"/>, [...resultsData].sort((a,b) => b.stats.top5RateValue - a.stats.top5RateValue), (p) => p.stats.top5RateValue, "%", false, formatRecordFn);
-        if (step === N + 5) return renderOverallRanking("種牡馬 (全体)", <IconCrown size={60} className="text-yellow-500"/>, overallData.sires, "points", "pt");
-        if (step === N + 6) return renderOverallRanking("厩舎 (全体)", <IconBriefcase size={60} className="text-indigo-400"/>, overallData.trainers, "points", "pt");
-        if (step === N + 7) return renderOverallRanking("騎手 (全体)", <IconUsers size={60} className="text-teal-400"/>, overallData.jockeys, "points", "pt");
+        if (step === N + 1) return renderSubRanking("総出走数", <IconActivity size={60} className="text-blue-800"/>, [...resultsData].sort((a,b) => b.stats.startsValue - a.stats.startsValue), (p) => p.stats.startsValue, "走");
+        if (step === N + 2) return renderSubRanking("勝率", <IconTarget size={60} className="text-rose-700"/>, [...resultsData].sort((a,b) => b.stats.winRateValue - a.stats.winRateValue), (p) => p.stats.winRateValue, "%", false, formatRecordFn);
+        if (step === N + 3) return renderSubRanking("連対率", <IconTrendingUp size={60} className="text-amber-700"/>, [...resultsData].sort((a,b) => b.stats.top2RateValue - a.stats.top2RateValue), (p) => p.stats.top2RateValue, "%", false, formatRecordFn);
+        if (step === N + 4) return renderSubRanking("5着内率", <IconShieldCheck size={60} className="text-emerald-700"/>, [...resultsData].sort((a,b) => b.stats.top5RateValue - a.stats.top5RateValue), (p) => p.stats.top5RateValue, "%", false, formatRecordFn);
+        if (step === N + 5) return renderOverallRanking("種牡馬 (全体)", <IconCrown size={60} className="text-red-900"/>, overallData.sires, "points", "pt");
+        if (step === N + 6) return renderOverallRanking("厩舎 (全体)", <IconBriefcase size={60} className="text-indigo-800"/>, overallData.trainers, "points", "pt");
+        if (step === N + 7) return renderOverallRanking("騎手 (全体)", <IconUsers size={60} className="text-teal-800"/>, overallData.jockeys, "points", "pt");
         if (step === N + 8) return renderGlobalBonusPage();
         if (step === N + 9) return renderFinalChampionship();
       }
@@ -1954,35 +1998,36 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
       const currentData = resultsData[resultsData.length - step];
       const isTop3 = currentData.rank <= 3;
       const isWinner = currentData.rank === 1;
-      const cardGlowClass = isWinner ? "glow-gold" : currentData.rank === 2 ? "glow-cyan" : currentData.rank === 3 ? "glow-rose" : "border-slate-900";
+      const cardGlowClass = isWinner ? "glow-champion" : currentData.rank === 2 ? "glow-silver" : currentData.rank === 3 ? "glow-bronze" : "border-stone-200";
 
       // 当該オーナーの獲得ボーナス抽出
       const myBonuses = OWNER_BONUS_RESULTS[currentData.name] || [];
 
       return (
-        <div className="min-h-screen flex flex-col transition-all duration-700 bg-slate-950 overflow-x-hidden">
+        <div className="min-h-screen flex flex-col transition-all duration-700 paper-bg overflow-x-hidden">
           <GlobalHeader />
           <div className="flex-grow flex items-start justify-center p-4 md:p-8">
-            <div className={`w-full max-w-6xl bg-slate-900/20 backdrop-blur-xl rounded-[32px] shadow-2xl overflow-hidden border p-5 md:p-10 relative ${cardGlowClass}`}>
+            <div className={`w-full max-w-6xl bg-white rounded-[32px] overflow-hidden border p-5 md:p-10 relative ${cardGlowClass}`}>
 
-              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b border-slate-900 pb-8 mb-8 gap-6">
+              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center border-b border-stone-200 pb-8 mb-8 gap-6">
                 <div className="flex flex-col gap-4 flex-grow w-full lg:w-auto">
+                  <div className="ornament-line text-stone-400 text-[10px] font-bold tracking-[0.4em] uppercase">Owner Report &nbsp;No.{currentData.rank}</div>
                   <div className="flex items-center gap-3">
-                    {isTop3 ? <IconMedal size={36} className={currentData.textColor} /> : <div className="w-1.5 h-8 bg-white/20 rounded-full"></div>}
-                    <h2 className={`text-4xl md:text-5xl font-black ${currentData.textColor} tracking-wider`}>第 {currentData.rank} 位</h2>
+                    {isTop3 ? <IconMedal size={36} className={currentData.textColor} /> : <div className="w-1.5 h-8 bg-stone-300 rounded-full"></div>}
+                    <h2 className={`font-serif-jp text-4xl md:text-5xl font-black ${currentData.textColor} tracking-wider`}>第 {currentData.rank} 位</h2>
                   </div>
-                  <h3 className="text-5xl md:text-7xl font-black text-white break-words tracking-tight">{currentData.name}</h3>
-                  <div className="mt-2 bg-slate-950/40 p-4 rounded-2xl border border-slate-900 max-w-sm">
-                    <p className="text-slate-500 font-bold text-xs tracking-wider mb-1">総獲得ポイント</p>
-                    <p className={`text-5xl md:text-6xl font-black ${currentData.textColor} tracking-tight font-mono`}>{currentData.points.toLocaleString()} <span className="text-lg font-medium text-slate-400">pt</span></p>
+                  <h3 className="font-serif-jp text-5xl md:text-7xl font-black text-stone-900 break-words tracking-tight leading-tight">{currentData.name}</h3>
+                  <div className="mt-2 bg-stone-50 p-4 rounded-2xl border border-stone-200 max-w-sm">
+                    <p className="text-stone-400 font-bold text-[10px] tracking-[0.3em] uppercase mb-1">Total Points</p>
+                    <p className={`text-5xl md:text-6xl font-black ${currentData.textColor} tracking-tight font-mono`}>{currentData.points.toLocaleString()} <span className="text-lg font-medium text-stone-500">pt</span></p>
                   </div>
                 </div>
 
                 {currentData.image && (
                   <div className="w-full lg:w-1/2 xl:w-5/12 flex-shrink-0 self-start lg:self-center">
-                    <div className="w-full bg-slate-950/60 rounded-3xl p-4 border border-slate-900 shadow-2xl flex flex-col justify-center">
-                      <h4 className="flex items-center gap-2 text-slate-300 font-bold text-xs tracking-wider mb-3"><IconCamera size={14} className="text-emerald-400"/> 代表馬: {currentData.image.horseName}</h4>
-                      <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-slate-800/80 bg-slate-950 flex items-center justify-center">
+                    <div className="w-full bg-stone-100 rounded-3xl p-4 border border-stone-200 shadow-2xl flex flex-col justify-center">
+                      <h4 className="flex items-center gap-2 text-stone-700 font-bold text-xs tracking-wider mb-3"><IconCamera size={14} className="text-emerald-700"/> 代表馬: {currentData.image.horseName}</h4>
+                      <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-stone-300/80 paper-bg flex items-center justify-center">
                         <img src={`./${currentData.image.url}`} alt={currentData.image.horseName} className="w-full h-full object-cover" onError={(e) => { e.target.onerror = null; e.target.src = 'data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="%23334155" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"%3E%3Cpath d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/%3E%3Ccircle cx="12" cy="13" r="3"/%3E%3C/svg>'; }} />
                       </div>
                     </div>
@@ -1991,7 +2036,7 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
               </div>
 
               <div className="mb-12">
-                <h4 className="flex items-center gap-2 text-slate-200 font-black mb-5 text-lg tracking-wider"><IconTarget size={18} className="text-emerald-400"/> 成績分析</h4>
+                <h4 className="flex items-center gap-2 text-stone-800 font-black mb-5 text-lg tracking-wider"><IconTarget size={18} className="text-emerald-700"/> 成績分析</h4>
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                    <LargeStatBox icon={<IconActivity size={18}/>} label="総出走数" value={`${currentData.stats.starts.value}`} subtext="15頭通算" rank={currentData.stats.starts.rank} glowClass="hover:border-blue-500/30" />
                    <LargeStatBox icon={<IconTarget size={18}/>} label="勝率" value={`${currentData.stats.winRate.value}%`} subtext={`${currentData.stats.winsValue}勝`} rank={currentData.stats.winRate.rank} glowClass="hover:border-rose-500/30" />
@@ -2002,74 +2047,74 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div className="space-y-6">
-                  <div className="bg-slate-900/20 rounded-3xl p-6 border border-slate-900 shadow-xl">
-                    <h4 className="flex items-center gap-2 text-slate-200 font-black mb-5 text-base tracking-wider"><IconStar size={18} className="text-yellow-400 fill-yellow-400/20"/> 主力馬</h4>
+                  <div className="bg-white/20 rounded-3xl p-6 border border-stone-200 shadow-xl">
+                    <h4 className="flex items-center gap-2 text-stone-800 font-black mb-5 text-base tracking-wider"><IconStar size={18} className="text-red-900 fill-red-900/15"/> 主力馬</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {currentData.topHorses.map((horse, i) => (
-                        <div key={i} className="bg-slate-950/40 p-4 rounded-2xl border border-slate-900 hover:border-yellow-500/20 transition-all">
-                          <p className="text-lg font-bold text-white mb-2 truncate">{horse.name}</p>
+                        <div key={i} className="bg-stone-50 p-4 rounded-2xl border border-stone-200 hover:border-red-900/20 transition-all">
+                          <p className="text-lg font-bold text-stone-900 mb-2 truncate">{horse.name}</p>
                           <div className="flex flex-col gap-1.5">
-                            <p className="text-emerald-400 text-xs font-bold flex items-center gap-1.5 truncate bg-emerald-500/5 px-2.5 py-1 rounded-lg border border-emerald-500/10 w-fit">{horse.isGraded && <IconTrophy size={12} className="text-yellow-500"/>} {horse.majorWin}</p>
-                            <p className="text-yellow-400 font-mono text-sm text-right font-black">{horse.points.toLocaleString()} pt</p>
+                            <p className="text-emerald-800 text-xs font-bold flex items-center gap-1.5 truncate bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 w-fit">{horse.isGraded && <IconTrophy size={12} className="text-red-900"/>} {horse.majorWin}</p>
+                            <p className="text-red-900 font-mono text-sm text-right font-black">{horse.points.toLocaleString()} pt</p>
                           </div>
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="bg-slate-900/10 rounded-3xl p-6 border-l-4 border-slate-700/60 shadow-inner">
-                    <h4 className="flex items-center gap-2 text-slate-400 font-bold mb-3 text-xs tracking-wider"><IconActivity size={14} className="text-blue-400"/> 総評</h4>
+                  <div className="bg-white rounded-3xl p-6 border-l-[6px] border-red-900/70 border-y border-r border-stone-200 shadow-sm">
+                    <h4 className="flex items-center gap-2 text-stone-500 font-bold mb-3 text-xs tracking-[0.2em] uppercase"><IconActivity size={14} className="text-red-900"/> Editor's Note &nbsp;／&nbsp; 総評</h4>
                     {Array.isArray(currentData.topics) ? (
                       <ul className="space-y-2.5">
                         {currentData.topics.map((point, i) => (
-                          <li key={i} className="flex items-start gap-2.5 text-slate-200 text-sm leading-relaxed font-medium">
-                            <span className="text-yellow-400 mt-1.5 text-[8px] flex-shrink-0">●</span>
+                          <li key={i} className="flex items-start gap-2.5 text-stone-800 text-sm leading-relaxed font-medium">
+                            <span className="text-red-900 mt-1.5 text-[8px] flex-shrink-0">●</span>
                             <span className="flex-1">{point}</span>
                           </li>
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-slate-200 text-sm leading-relaxed font-medium">{currentData.topics}</p>
+                      <p className="text-stone-800 text-sm leading-relaxed font-medium">{currentData.topics}</p>
                     )}
                   </div>
                 </div>
 
                 <div className="space-y-6">
-                  <div className="bg-slate-900/20 rounded-3xl p-6 border border-slate-900 shadow-xl">
-                    <h4 className="flex items-baseline justify-between text-slate-200 font-black mb-4 text-base tracking-wider"><div className="flex items-center gap-2"><IconBarChart2 size={18} className="text-cyan-400"/> 関係者・血統</div><span className="text-[10px] font-normal text-slate-500 tracking-wider">※[1-2-3-4-5-外]</span></h4>
+                  <div className="bg-white/20 rounded-3xl p-6 border border-stone-200 shadow-xl">
+                    <h4 className="flex items-baseline justify-between text-stone-800 font-black mb-4 text-base tracking-wider"><div className="flex items-center gap-2"><IconBarChart2 size={18} className="text-blue-800"/> 関係者・血統</div><span className="text-[10px] font-normal text-stone-400 tracking-wider">※[1-2-3-4-5-外]</span></h4>
                     <div className="space-y-1">
-                      <AttributeRow icon={<IconCrown size={18} className="text-yellow-500"/>} label="稼ぎ頭の種牡馬" data={{ name: currentData.stats.bestSire.name, detail: `${(currentData.stats.bestSire.points || 0).toLocaleString()} pt` }} record={currentData.stats.bestSire.name !== '-' ? `[${currentData.stats.bestSire.record.join('-')}]（全${currentData.stats.bestSire.starts}走）` : null} />
+                      <AttributeRow icon={<IconCrown size={18} className="text-red-900"/>} label="稼ぎ頭の種牡馬" data={{ name: currentData.stats.bestSire.name, detail: `${(currentData.stats.bestSire.points || 0).toLocaleString()} pt` }} record={currentData.stats.bestSire.name !== '-' ? `[${currentData.stats.bestSire.record.join('-')}]（全${currentData.stats.bestSire.starts}走）` : null} />
                       <AttributeRow icon={<IconBriefcase size={18}/>} label="稼ぎ頭の厩舎" data={{ name: currentData.stats.bestTrainer.name, detail: `${(currentData.stats.bestTrainer.points || 0).toLocaleString()} pt` }} record={currentData.stats.bestTrainer.name !== '-' ? `[${currentData.stats.bestTrainer.record.join('-')}]（全${currentData.stats.bestTrainer.starts}走）` : null} />
-                      <AttributeRow icon={<IconUsers size={18} className="text-indigo-400"/>} label="最多騎乗 騎手" data={{ name: currentData.stats.mostRidesJockey.name, detail: `${currentData.stats.mostRidesJockey.starts}戦` }} record={currentData.stats.mostRidesJockey.name !== '-' ? `[${currentData.stats.mostRidesJockey.record.join('-')}]（全${currentData.stats.mostRidesJockey.starts}走）` : null} />
-                      <AttributeRow icon={<IconAward size={18} className="text-rose-400"/>} label={currentData.stats.bestRateJockey.starts >= 3 ? "最高勝率 騎手 (3戦以上)" : "最高勝率 騎手"} data={{ name: currentData.stats.bestRateJockey.name, detail: `${currentData.stats.bestRateJockey.winRate}%` }} record={currentData.stats.bestRateJockey.name !== '-' ? `[${currentData.stats.bestRateJockey.record.join('-')}]（全${currentData.stats.bestRateJockey.starts}走）` : null} />
+                      <AttributeRow icon={<IconUsers size={18} className="text-indigo-700"/>} label="最多騎乗 騎手" data={{ name: currentData.stats.mostRidesJockey.name, detail: `${currentData.stats.mostRidesJockey.starts}戦` }} record={currentData.stats.mostRidesJockey.name !== '-' ? `[${currentData.stats.mostRidesJockey.record.join('-')}]（全${currentData.stats.mostRidesJockey.starts}走）` : null} />
+                      <AttributeRow icon={<IconAward size={18} className="text-rose-700"/>} label={currentData.stats.bestRateJockey.starts >= 3 ? "最高勝率 騎手 (3戦以上)" : "最高勝率 騎手"} data={{ name: currentData.stats.bestRateJockey.name, detail: `${currentData.stats.bestRateJockey.winRate}%` }} record={currentData.stats.bestRateJockey.name !== '-' ? `[${currentData.stats.bestRateJockey.record.join('-')}]（全${currentData.stats.bestRateJockey.starts}走）` : null} />
                     </div>
                   </div>
 
-                  <div className="bg-slate-900/20 rounded-3xl p-6 border border-slate-900 shadow-xl">
-                    <h4 className="flex items-center gap-2 text-slate-200 font-black mb-4 text-base tracking-wider"><IconMapPin size={18} className="text-rose-400"/> 適性分析</h4>
+                  <div className="bg-white/20 rounded-3xl p-6 border border-stone-200 shadow-xl">
+                    <h4 className="flex items-center gap-2 text-stone-800 font-black mb-4 text-base tracking-wider"><IconMapPin size={18} className="text-rose-700"/> 適性分析</h4>
                     <div className="space-y-4">
                       <div>
-                        <p className="text-[10px] text-slate-500 font-black tracking-wider uppercase">ドラフト貢献度 (ポイント比率)</p>
-                        <RatioBar leftLabel="上位指名(1〜5位)" leftValue={currentData.stats.draftAnalysis.top} leftColor="bg-gradient-to-r from-rose-600 to-rose-500" rightLabel="下位指名(6〜15位)" rightValue={currentData.stats.draftAnalysis.low} rightColor="bg-gradient-to-r from-blue-600 to-blue-500" />
+                        <p className="text-[10px] text-stone-400 font-black tracking-wider uppercase">ドラフト貢献度 (ポイント比率)</p>
+                        <RatioBar leftLabel="上位指名(1〜5位)" leftValue={currentData.stats.draftAnalysis.top} leftColor="bg-gradient-to-r from-rose-700 to-rose-500" rightLabel="下位指名(6〜15位)" rightValue={currentData.stats.draftAnalysis.low} rightColor="bg-gradient-to-r from-blue-800 to-blue-600" />
                       </div>
                       <div>
-                        <p className="text-[10px] text-slate-500 font-black tracking-wider uppercase">所属適性 (ポイント比率)</p>
-                        <RatioBar leftLabel="関西馬(栗東)" leftValue={currentData.stats.centerAnalysis.ritto} leftColor="bg-gradient-to-r from-amber-500 to-amber-400" rightLabel="関東馬(美浦)" rightValue={currentData.stats.centerAnalysis.miho} rightColor="bg-gradient-to-r from-teal-500 to-teal-400" />
+                        <p className="text-[10px] text-stone-400 font-black tracking-wider uppercase">所属適性 (ポイント比率)</p>
+                        <RatioBar leftLabel="関西馬(栗東)" leftValue={currentData.stats.centerAnalysis.ritto} leftColor="bg-gradient-to-r from-amber-700 to-amber-500" rightLabel="関東馬(美浦)" rightValue={currentData.stats.centerAnalysis.miho} rightColor="bg-gradient-to-r from-teal-700 to-teal-500" />
                       </div>
                       <div>
-                        <p className="text-[10px] text-slate-500 font-black tracking-wider uppercase">馬場適性 (獲得賞金比率)</p>
-                        <RatioBar leftLabel="芝" leftValue={currentData.stats.trackAnalysis.turf} leftColor="bg-gradient-to-r from-emerald-500 to-emerald-400" rightLabel="ダート" rightValue={currentData.stats.trackAnalysis.dirt} rightColor="bg-gradient-to-r from-amber-700 to-amber-600" />
+                        <p className="text-[10px] text-stone-400 font-black tracking-wider uppercase">馬場適性 (獲得賞金比率)</p>
+                        <RatioBar leftLabel="芝" leftValue={currentData.stats.trackAnalysis.turf} leftColor="bg-gradient-to-r from-emerald-700 to-emerald-500" rightLabel="ダート" rightValue={currentData.stats.trackAnalysis.dirt} rightColor="bg-gradient-to-r from-amber-800 to-amber-600" />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-12 bg-slate-900/10 rounded-3xl p-6 border border-slate-900">
-                <h4 className="flex items-center gap-2 text-slate-300 font-black mb-5 text-base tracking-wider"><IconList size={18} className="text-purple-400"/> 指名馬一覧 (獲得ポイント順 / 全15頭)</h4>
-                <div className="overflow-x-auto rounded-2xl border border-slate-800/80">
+              <div className="mt-12 bg-white/10 rounded-3xl p-6 border border-stone-200">
+                <h4 className="flex items-center gap-2 text-stone-700 font-black mb-5 text-base tracking-wider"><IconList size={18} className="text-purple-700"/> 指名馬一覧 (獲得ポイント順 / 全15頭)</h4>
+                <div className="overflow-x-auto rounded-2xl border border-stone-300/80">
                   <table className="w-full text-sm text-left whitespace-nowrap relative">
-                    <thead className="text-[11px] text-slate-400 bg-slate-950/60 uppercase border-b border-slate-800 tracking-wider font-bold">
+                    <thead className="text-[11px] text-stone-500 bg-stone-100 uppercase border-b border-stone-300 tracking-wider font-bold">
                       <tr>
                         <th className="px-5 py-4 text-center">指名順</th>
                         <th className="px-5 py-4">馬名</th>
@@ -2080,16 +2125,16 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
                         <th className="px-5 py-4 text-center">着度数</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-800/40">
+                    <tbody className="divide-y divide-stone-200/40">
                       {currentData.horses.map((horse, idx) => (
-                        <tr key={idx} className="hover:bg-slate-900/40 transition-colors">
-                          <td className="px-5 py-4 text-slate-500 font-mono text-center font-bold">{horse.draftRank}</td>
-                          <td className="px-5 py-4 font-black text-white">{horse.name}</td>
-                          <td className="px-5 py-4 text-slate-300 text-xs font-semibold">{horse.sire}</td>
-                          <td className="px-5 py-4 text-slate-400 text-xs">{horse.trainer} ({horse.center})</td>
-                          <td className="px-5 py-4 text-right text-yellow-400 font-mono font-black">{horse.points.toLocaleString()} pt</td>
-                          <td className="px-5 py-4 text-slate-300 text-xs">{horse.isGraded && <span className="inline-block mr-1.5 text-yellow-500"><IconTrophy size={12} className="inline"/></span>}{horse.majorWin}</td>
-                          <td className="px-5 py-4 text-center font-mono tracking-wider text-emerald-400 bg-slate-950/20 text-xs">[{horse.record.join('-')}]<span className="text-[10px] text-slate-500 ml-1">（全{horse.starts}走）</span></td>
+                        <tr key={idx} className="hover:bg-white/40 transition-colors">
+                          <td className="px-5 py-4 text-stone-400 font-mono text-center font-bold">{horse.draftRank}</td>
+                          <td className="px-5 py-4 font-black text-stone-900">{horse.name}</td>
+                          <td className="px-5 py-4 text-stone-700 text-xs font-semibold">{horse.sire}</td>
+                          <td className="px-5 py-4 text-stone-500 text-xs">{horse.trainer} ({horse.center})</td>
+                          <td className="px-5 py-4 text-right text-red-900 font-mono font-black">{horse.points.toLocaleString()} pt</td>
+                          <td className="px-5 py-4 text-stone-700 text-xs">{horse.isGraded && <span className="inline-block mr-1.5 text-red-900"><IconTrophy size={12} className="inline"/></span>}{horse.majorWin}</td>
+                          <td className="px-5 py-4 text-center font-mono tracking-wider text-emerald-700 bg-stone-50 text-xs">[{horse.record.join('-')}]<span className="text-[10px] text-stone-400 ml-1">（全{horse.starts}走）</span></td>
                         </tr>
                       ))}
                     </tbody>
@@ -2098,21 +2143,21 @@ Kei.OH,ディースカウ,2026/04/11,福島04R,,未勝利,ダ 1150,14,0,小林�
               </div>
 
               {/* オーナーの獲得ボーナスセクション（ページ末尾） */}
-              <div className="mt-8 bg-slate-900/20 rounded-3xl p-6 border border-slate-900 shadow-xl">
-                <h4 className="flex items-center gap-2 text-slate-200 font-black mb-4 text-base tracking-wider"><IconGift size={18} className="text-yellow-400" /> 獲得ボーナス</h4>
+              <div className="mt-8 bg-white/20 rounded-3xl p-6 border border-stone-200 shadow-xl">
+                <h4 className="flex items-center gap-2 text-stone-800 font-black mb-4 text-base tracking-wider"><IconGift size={18} className="text-red-900" /> 獲得ボーナス</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                   {BONUS_MASTER.map(master => {
                     const hasBonus = myBonuses.find(b => b.id === master.id);
                     return (
-                      <div key={master.id} className={`p-3 rounded-xl border flex items-center justify-between transition-colors ${hasBonus ? 'bg-yellow-500/5 border-yellow-500/30' : 'bg-slate-950/20 border-slate-900/40 opacity-40'}`}>
+                      <div key={master.id} className={`p-3 rounded-xl border flex items-center justify-between transition-colors ${hasBonus ? 'bg-red-900/5 border-red-900/30' : 'bg-stone-50 border-stone-200/40 opacity-40'}`}>
                         <div className="flex items-center gap-3">
-                          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold flex-shrink-0 ${hasBonus ? 'bg-yellow-500 text-slate-950' : 'bg-slate-800 text-slate-500'}`}>{master.id}</span>
+                          <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold flex-shrink-0 ${hasBonus ? 'bg-red-900 text-stone-50' : 'bg-stone-200 text-stone-400'}`}>{master.id}</span>
                           <div>
-                            <p className="text-xs font-black text-white">{master.name}</p>
-                            {hasBonus && <p className="text-[11px] text-yellow-400 font-medium mt-0.5">{hasBonus.detail}</p>}
+                            <p className="text-xs font-black text-stone-900">{master.name}</p>
+                            {hasBonus && <p className="text-[11px] text-red-900 font-medium mt-0.5">{hasBonus.detail}</p>}
                           </div>
                         </div>
-                        {hasBonus && <span className="text-[9px] font-bold px-2 py-0.5 bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 rounded-md font-mono flex-shrink-0 ml-2">{master.reward}</span>}
+                        {hasBonus && <span className="text-[9px] font-bold px-2 py-0.5 bg-red-900/10 text-red-900 border border-red-900/20 rounded-md font-mono flex-shrink-0 ml-2">{master.reward}</span>}
                       </div>
                     );
                   })}
